@@ -55,6 +55,12 @@
       transform: scale(1.02);
     }
 
+    /* Ensure ALL children of a hidden screen are non-interactive,
+       even if they set pointer-events: all themselves */
+    .screen.hidden * {
+      pointer-events: none !important;
+    }
+
     /* ── LANDING ── */
     #landing {
       background: #080f14;
@@ -423,7 +429,7 @@
       border-radius: 18px;
       overflow: hidden;
       cursor: pointer;
-      aspect-ratio: 4/3;
+      aspect-ratio: 1/1;
       border: 1px solid rgba(255, 255, 255, 0.07);
       transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.4s ease, box-shadow 0.4s ease;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
@@ -1160,6 +1166,557 @@
       background: rgba(255, 255, 255, 0.15);
       border-radius: 2px;
     }
+    /* ── WELLNESS SCREEN ── */
+    #wellness {
+      background: #0a1520;
+      overflow-y: auto;
+    }
+    .wellness-header {
+      padding: 2.5rem 3rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      background: rgba(10,21,32,0.95);
+      backdrop-filter: blur(16px);
+      z-index: 10;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .wellness-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem 3rem 3rem;
+    }
+    .wellness-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px;
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .wellness-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .wellness-card-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .wellness-card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: #fff;
+    }
+    .wellness-card-desc {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+    .wellness-card-tag {
+      margin-top: auto;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── SHARED OVERLAY BASE ── */
+    .tool-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(4,10,18,0.92);
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      padding: 2rem;
+    }
+    .tool-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .tool-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .tool-close:hover { background: rgba(255,255,255,0.16); color: #fff; }
+    .tool-fullscreen-btn {
+      position: absolute;
+      top: 1.5rem;
+      left: 2rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.45);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      transition: all 0.3s;
+    }
+    .tool-fullscreen-btn:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.25); }
+
+    /* ── GROUNDING 5-4-3-2-1 ── */
+    .grounding-box {
+      max-width: 540px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    .grounding-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .grounding-sense {
+      text-align: center;
+    }
+    .grounding-sense-num {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+    }
+    .grounding-sense-label {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: #fff;
+      margin-top: -0.5rem;
+    }
+    .grounding-sense-prompt {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.5rem;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+    }
+    .grounding-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      min-height: 2.5rem;
+    }
+    .grounding-item-tag {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.8);
+      animation: fadeUp 0.3s ease forwards;
+    }
+    .grounding-input-row {
+      display: flex;
+      gap: 0.6rem;
+      width: 100%;
+    }
+    .grounding-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 0.7rem 1.2rem;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .grounding-input:focus { border-color: rgba(255,255,255,0.35); }
+    .grounding-input::placeholder { color: rgba(255,255,255,0.25); }
+    .grounding-add-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 100px;
+      padding: 0.7rem 1.3rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .grounding-add-btn:hover { background: rgba(255,255,255,0.18); }
+    .grounding-progress {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .g-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.4s;
+    }
+    .g-dot.done { background: rgba(255,255,255,0.7); }
+    .grounding-nav {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .g-nav-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      padding: 0.6rem 1.6rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .g-nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .g-nav-btn.primary { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.35); color: #fff; }
+    .g-nav-btn.primary:hover { background: rgba(255,255,255,0.2); }
+    .grounding-complete {
+      text-align: center;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .grounding-complete.show { display: flex; }
+    .grounding-complete-icon { font-size: 3rem; }
+    .grounding-complete-msg {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: #fff;
+    }
+    .grounding-complete-sub {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      max-width: 320px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── AFFIRMATIONS ── */
+    .affirmation-box {
+      max-width: 600px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      text-align: center;
+    }
+    .affirmation-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .affirmation-card {
+      position: relative;
+      width: 100%;
+    }
+    .affirmation-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      min-height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .affirmation-text.fade-out { opacity: 0; transform: translateY(-8px); }
+    .affirmation-text.fade-in { opacity: 1; transform: translateY(0); }
+    .affirmation-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-top: 1rem;
+    }
+    .affirmation-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .aff-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .aff-btn:hover { background: rgba(255,255,255,0.14); color: #fff; transform: scale(1.08); }
+    .aff-auto-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+      padding: 0.55rem 1.4rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      transition: all 0.3s;
+    }
+    .aff-auto-btn.on { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); color: #fff; }
+    .affirmation-dots {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 300px;
+    }
+    .aff-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    .aff-dot.active { background: rgba(255,255,255,0.75); }
+
+    /* ── JOURNAL ── */
+    .journal-box {
+      max-width: 620px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      max-height: 85vh;
+    }
+    .journal-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .journal-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .journal-tabs {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .j-tab {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.4);
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      transition: all 0.3s;
+    }
+    .j-tab.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #fff; }
+    .journal-entry-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .journal-mood-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .mood-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.55);
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: var(--font-body);
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .mood-chip:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
+    .mood-chip.selected { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.35); color: #fff; }
+    .journal-textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      color: rgba(255,255,255,0.85);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      resize: none;
+      outline: none;
+      min-height: 120px;
+      transition: border-color 0.3s;
+    }
+    .journal-textarea:focus { border-color: rgba(255,255,255,0.25); }
+    .journal-textarea::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
+    .journal-trigger-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .journal-trigger-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      white-space: nowrap;
+    }
+    .trigger-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.45);
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-family: var(--font-body);
+      transition: all 0.25s;
+    }
+    .trigger-chip:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
+    .trigger-chip.selected { background: rgba(255,100,100,0.12); border-color: rgba(255,120,120,0.3); color: rgba(255,180,180,0.9); }
+    .journal-save-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 0.75rem;
+      border-radius: 100px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .journal-save-btn:hover { background: rgba(255,255,255,0.18); }
+    .journal-entries-list {
+      display: none;
+      flex-direction: column;
+      gap: 0.8rem;
+      overflow-y: auto;
+      max-height: 60vh;
+      padding-right: 0.3rem;
+    }
+    .journal-entries-list.show { display: flex; }
+    .journal-entry-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .entry-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .entry-date {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+    }
+    .entry-mood-badge {
+      font-size: 0.68rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+    }
+    .entry-text {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    .entry-triggers {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .entry-trigger-tag {
+      font-size: 0.62rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 100px;
+      background: rgba(255,100,100,0.1);
+      border: 1px solid rgba(255,120,120,0.2);
+      color: rgba(255,180,180,0.7);
+    }
+    .journal-empty {
+      text-align: center;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.85rem;
+      padding: 2rem 0;
+      font-style: italic;
+    }
+    .entry-delete-btn {
+      background: none;
+      border: none;
+      color: rgba(255,100,100,0.4);
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.3rem;
+      transition: color 0.2s;
+    }
+    .entry-delete-btn:hover { color: rgba(255,100,100,0.8); }
   </style>
 </head>
 
@@ -1185,16 +1742,17 @@
         </svg>
       </div>
       <h1 class="brand">Tranquil<em>.</em></h1>
-      <p class="tagline">Immersive spaces for rest &amp; recovery</p>
+      <p class="tagline">Gentle spaces for grounding &amp; calm</p>
       <button class="begin-btn" onclick="showScreen('selector')">Begin your journey</button>
     </div>
-    <p class="note">For relaxation and stress relief. Not a substitute for professional mental health care.</p>
+    <p class="note">Designed for gentle grounding &amp; calm. Not a substitute for professional mental health or trauma care.</p>
   </div>
 
   <div class="screen hidden" id="selector">
     <div class="selector-header">
       <button class="back-btn" onclick="showScreen('landing')">← Back</button>
       <h2 class="selector-title">Choose your sanctuary</h2>
+      <button class="back-btn" style="margin-left:auto" onclick="showScreen('wellness')">✦ Wellness Tools</button>
     </div>
     <div class="areas-grid" id="areas-grid"></div>
   </div>
@@ -1209,6 +1767,9 @@
           <button class="pill-btn" id="breathe-btn" onclick="openBreathing()">
             ✦ &nbsp;Breathing
           </button>
+          <button class="pill-btn" onclick="openGrounding()">⬡ &nbsp;Grounding</button>
+          <button class="pill-btn" onclick="openAffirmations()">❋ &nbsp;Affirm</button>
+          <button class="pill-btn" onclick="openJournal()">✎ &nbsp;Journal</button>
           <button class="icon-btn" id="mute-video-btn" title="Toggle video sound" onclick="toggleVideoMute()">
             <span id="mute-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -1288,6 +1849,123 @@
     </div>
   </div>
 
+  <!-- ── WELLNESS SCREEN ── -->
+  <div class="screen hidden" id="wellness">
+    <div class="wellness-header">
+      <button class="back-btn" onclick="showScreen('selector')">← Back</button>
+      <h2 class="selector-title">Wellness Tools</h2>
+    </div>
+    <div class="wellness-grid">
+      <div class="wellness-card" onclick="openGrounding()">
+        <div class="wellness-card-icon">⬡</div>
+        <div class="wellness-card-title">5-4-3-2-1 Grounding</div>
+        <div class="wellness-card-desc">A clinically recommended technique that uses your five senses to anchor you to the present moment and interrupt anxiety or flashbacks.</div>
+        <div class="wellness-card-tag">Grounding · Sensory · Present-moment</div>
+      </div>
+      <div class="wellness-card" onclick="openAffirmations()">
+        <div class="wellness-card-icon">❋</div>
+        <div class="wellness-card-title">Grounding Affirmations</div>
+        <div class="wellness-card-desc">Gentle coping statements designed to interrupt the threat-response loop. Rotate through them slowly or let them cycle automatically.</div>
+        <div class="wellness-card-tag">Safety · Regulation · Calm</div>
+      </div>
+      <div class="wellness-card" onclick="openJournal()">
+        <div class="wellness-card-icon">✎</div>
+        <div class="wellness-card-title">Mood & Trigger Journal</div>
+        <div class="wellness-card-desc">A private, on-device log to record how you feel, what triggered you, and what helped. Building self-awareness over time is key to recovery.</div>
+        <div class="wellness-card-tag">Journaling · Patterns · Self-awareness</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GROUNDING OVERLAY ── -->
+  <div class="tool-overlay" id="grounding-overlay">
+    <button class="tool-close" onclick="closeGrounding()">×</button>
+    <div class="grounding-box" id="grounding-main">
+      <p class="grounding-title">5 — 4 — 3 — 2 — 1 Grounding</p>
+      <div class="grounding-sense">
+        <div class="grounding-sense-num" id="g-num">5</div>
+        <div class="grounding-sense-label" id="g-label">Things you can SEE</div>
+        <div class="grounding-sense-prompt" id="g-prompt">Look around slowly. Name 5 things you can see right now.</div>
+      </div>
+      <div class="grounding-items" id="g-items"></div>
+      <div class="grounding-input-row">
+        <input class="grounding-input" id="g-input" type="text" placeholder="Type something you notice…" onkeydown="if(event.key==='Enter') addGroundingItem()">
+        <button class="grounding-add-btn" onclick="addGroundingItem()">Add</button>
+      </div>
+      <div class="grounding-progress" id="g-progress"></div>
+      <div class="grounding-nav">
+        <button class="g-nav-btn" onclick="prevGroundingStep()" id="g-prev-btn">← Back</button>
+        <button class="g-nav-btn primary" onclick="nextGroundingStep()" id="g-next-btn">Next →</button>
+      </div>
+    </div>
+    <div class="grounding-complete" id="grounding-complete">
+      <div class="grounding-complete-icon">✦</div>
+      <div class="grounding-complete-msg">You are here. You are safe.</div>
+      <div class="grounding-complete-sub">You've completed the grounding exercise. Take a moment to notice how you feel right now — your feet on the ground, the air around you.</div>
+      <button class="g-nav-btn primary" style="margin-top:1rem" onclick="resetGrounding()">Do it again</button>
+    </div>
+  </div>
+
+  <!-- ── AFFIRMATIONS OVERLAY ── -->
+  <div class="tool-overlay" id="affirmations-overlay">
+    <button class="tool-close" onclick="closeAffirmations()">×</button>
+    <div class="affirmation-box">
+      <p class="affirmation-title">Grounding Affirmations</p>
+      <div class="affirmation-card">
+        <div class="affirmation-text fade-in" id="aff-text"></div>
+        <div class="affirmation-category" id="aff-category"></div>
+      </div>
+      <div class="affirmation-controls">
+        <button class="aff-btn" onclick="prevAffirmation()" title="Previous">←</button>
+        <button class="aff-auto-btn" id="aff-auto-btn" onclick="toggleAffAuto()">Auto</button>
+        <button class="aff-btn" onclick="nextAffirmation()" title="Next">→</button>
+      </div>
+      <div class="affirmation-dots" id="aff-dots"></div>
+    </div>
+  </div>
+
+  <!-- ── JOURNAL OVERLAY ── -->
+  <div class="tool-overlay" id="journal-overlay">
+    <button class="tool-close" onclick="closeJournal()">×</button>
+    <div class="journal-box">
+      <div class="journal-header-row">
+        <p class="journal-title">Mood & Trigger Journal</p>
+        <div class="journal-tabs">
+          <button class="j-tab active" id="j-tab-write" onclick="switchJournalTab('write')">Write</button>
+          <button class="j-tab" id="j-tab-history" onclick="switchJournalTab('history')">History</button>
+        </div>
+      </div>
+
+      <div id="j-write-panel">
+        <div class="journal-entry-form">
+          <div class="journal-mood-row" id="j-mood-row">
+            <span style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);align-self:center">Mood</span>
+            <button class="mood-chip" data-mood="calm" onclick="selectMood(this)">😌 Calm</button>
+            <button class="mood-chip" data-mood="anxious" onclick="selectMood(this)">😰 Anxious</button>
+            <button class="mood-chip" data-mood="sad" onclick="selectMood(this)">😔 Sad</button>
+            <button class="mood-chip" data-mood="angry" onclick="selectMood(this)">😤 Angry</button>
+            <button class="mood-chip" data-mood="numb" onclick="selectMood(this)">😶 Numb</button>
+            <button class="mood-chip" data-mood="hopeful" onclick="selectMood(this)">🌱 Hopeful</button>
+          </div>
+          <textarea class="journal-textarea" id="j-textarea" rows="5" placeholder="What's on your mind? This is private and stays only on your device…"></textarea>
+          <div class="journal-trigger-row">
+            <span class="journal-trigger-label">Triggers</span>
+            <button class="trigger-chip" data-trigger="noise" onclick="selectTrigger(this)">Loud noise</button>
+            <button class="trigger-chip" data-trigger="crowds" onclick="selectTrigger(this)">Crowds</button>
+            <button class="trigger-chip" data-trigger="sleep" onclick="selectTrigger(this)">Poor sleep</button>
+            <button class="trigger-chip" data-trigger="memory" onclick="selectTrigger(this)">Memory</button>
+            <button class="trigger-chip" data-trigger="news" onclick="selectTrigger(this)">News/media</button>
+            <button class="trigger-chip" data-trigger="conflict" onclick="selectTrigger(this)">Conflict</button>
+            <button class="trigger-chip" data-trigger="anniversary" onclick="selectTrigger(this)">Anniversary</button>
+          </div>
+          <button class="journal-save-btn" onclick="saveJournalEntry()">Save Entry</button>
+        </div>
+      </div>
+
+      <div class="journal-entries-list" id="j-history-panel"></div>
+    </div>
+  </div>
+
   <audio id="voice-audio" style="display:none"></audio>
 
   <script>
@@ -1297,125 +1975,97 @@
     // We use a pattern: iframe embed for YouTube (autoplay, muted, loop, no controls)
     // or fallback to a beautiful gradient with CSS animation if video unavailable.    
 
+    // ── PTSD-FRIENDLY SANCTUARIES ──────────────────────────────────────────────────
+    // All environments chosen for: predictable slow movement, no sudden changes,
+    // natural soundscapes, and grounding visuals — all evidence-based for PTSD relief.
+    // All use YouTube embeds (useYT: true) — no broken local video paths.
     const AREAS = [
       {
-        id: 'rainforest',
-        name: 'Amazon Rainforest',
-        mood: 'Lush · Alive · Humid',
-        thumb: 'https://images.unsplash.com/photo-1587502537745-84b86da1204f?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1587502537745-84b86da1204f?w=1920&q=90',
-        videoSrc: 'videos/Amazon_rainforest.mp4',
-        fallbackGrad: 'linear-gradient(135deg,#1a4731,#2d6a4f,#1b3a2b)',
-        useYT: false,
-      },
-      {
-        id: 'beach',
-        name: 'Tropical Beach',
-        mood: 'Waves · Warm · Open',
-        thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=90',
-        videoSrc: 'videos/Maldives_beach.mp4',
-        fallbackGrad: 'linear-gradient(135deg,#006994,#00a8cc,#e8d5a3)',
-        useYT: false,
-      },
-      {
-        id: 'mountains',
-        name: 'Alpine Mountains',
-        mood: 'Vast · Silent · Pure',
-        thumb: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=90',
-        videoSrc: 'videos/Mountains.mp4',
-        fallbackGrad: 'linear-gradient(135deg,#1a2744,#3a5a8c,#a8c5da)',
-        useYT: false,
-      },
-      {
-        id: 'waterfall',
-        name: 'Hidden Waterfall',
-        mood: 'Flowing · Fresh · Peaceful',
-        thumb: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=1920&q=90',
-        videoSrc: 'videos/Waterfalls.mp4',
-        fallbackGrad: 'linear-gradient(135deg,#0d3b2e,#2e8b57,#5ba4a4)',
-        useYT: false,
-      },
-      {
-        id: 'lavender',
-        name: 'Lavender Fields',
-        mood: 'Soft · Fragrant · Dreamy',
-        thumb: 'https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/aXItOY0sLRY?autoplay=1&mute=1&loop=1&playlist=aXItOY0sLRY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#4a3060,#9b77c7,#d4b8e8)',
+        id: 'galaxy',
+        name: 'Cosmic Galaxy',
+        mood: 'Infinite · Still · Awe-inspiring',
+        thumb: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=90',
+        // "8 Hours of Relaxing Space Ambience" - slow galaxy drift, very popular calm video
+        videoSrc: 'https://www.youtube-nocookie.com/embed/k3UevKvP9RU?autoplay=1&mute=1&loop=1&playlist=k3UevKvP9RU&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#06001a,#0d0533,#1a0a4a)',
         useYT: true,
       },
       {
-        id: 'forest',
-        name: 'Northern Forest',
-        mood: 'Still · Ancient · Cool',
-        thumb: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/V4-MJ1LVOYE?autoplay=1&mute=1&loop=1&playlist=V4-MJ1LVOYE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#1c2e1a,#3a5c38,#2d4a2b)',
-        useYT: true,
-      },
-      {
-        id: 'desert',
-        name: 'Desert Sunset',
-        mood: 'Warm · Vast · Timeless',
-        thumb: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/wQHCLF-KCBI?autoplay=1&mute=1&loop=1&playlist=wQHCLF-KCBI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#5c3317,#c4673a,#f7c59f)',
-        useYT: true,
-      },
-      {
-        id: 'ocean-deep',
-        name: 'Deep Ocean',
-        mood: 'Deep · Weightless · Slow',
-        thumb: 'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/LIlZCmETvsY?autoplay=1&mute=1&loop=1&playlist=LIlZCmETvsY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#001a33,#003d66,#006699)',
+        id: 'ocean-waves',
+        name: 'Gentle Ocean Waves',
+        mood: 'Rhythmic · Warm · Grounding',
+        thumb: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=90',
+        // "Relaxing Ocean Waves" - gentle rolling surf on a sunny beach, no sudden sounds
+        videoSrc: 'https://www.youtube-nocookie.com/embed/prfZFyp4XZk?autoplay=1&mute=1&loop=1&playlist=prfZFyp4XZk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#0a3d62,#1e90ff,#a8d8ea)',
         useYT: true,
       },
       {
         id: 'aurora',
-        name: 'Northern Lights',
-        mood: 'Mystical · Infinite · Rare',
+        name: 'Aurora Borealis',
+        mood: 'Ethereal · Slow · Magical',
         thumb: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=700&q=85',
         bgImage: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/cgf9jpWMUXE?autoplay=1&mute=1&loop=1&playlist=cgf9jpWMUXE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#0a0a1a,#0d2b3e,#1a4a3c)',
+        // "Aurora Borealis 4K" - slow flowing northern lights, deeply calming colours
+        videoSrc: 'https://www.youtube-nocookie.com/embed/taJr7qZGHPI?autoplay=1&mute=1&loop=1&playlist=taJr7qZGHPI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#020d1a,#043d2e,#0a5c4a)',
         useYT: true,
       },
       {
-        id: 'river',
-        name: 'Mountain River',
-        mood: 'Gentle · Constant · Clear',
-        thumb: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/7maJOI3QMu0?autoplay=1&mute=1&loop=1&playlist=7maJOI3QMu0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#1a3a2e,#2e6b55,#4a9080)',
+        id: 'rain-window',
+        name: 'Rainy Day Window',
+        mood: 'Cosy · Safe · Enclosed',
+        thumb: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=1920&q=90',
+        // "Rainy Window 4K" - gentle rain on glass, safe enclosed feeling, no thunder
+        videoSrc: 'https://www.youtube-nocookie.com/embed/zF-__3RANT4?autoplay=1&mute=1&loop=1&playlist=zF-__3RANT4&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#1c2833,#2e4057,#3d566e)',
         useYT: true,
       },
       {
-        id: 'meadow',
-        name: 'Wildflower Meadow',
-        mood: 'Bright · Alive · Free',
-        thumb: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/0cPBxRXsNBE?autoplay=1&mute=1&loop=1&playlist=0cPBxRXsNBE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#2d5a1b,#7ab648,#c8e6a0)',
+        id: 'fireplace',
+        name: 'Crackling Fireplace',
+        mood: 'Warm · Safe · Anchoring',
+        thumb: 'https://plus.unsplash.com/premium_photo-1695306149922-c58327a0aa95?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        bgImage: 'https://plus.unsplash.com/premium_photo-1695306149922-c58327a0aa95?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        // "Fireplace 4K" by Relaxation Channel - warm flickering fire, very popular for trauma grounding
+        videoSrc: 'https://www.youtube-nocookie.com/embed/VGlYxtkZUXI?autoplay=1&mute=1&loop=1&playlist=VGlYxtkZUXI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#3d1a00,#8b3a00,#c45c00)',
         useYT: true,
       },
       {
-        id: 'sakura',
-        name: 'Cherry Blossom Grove',
-        mood: 'Delicate · Fleeting · Serene',
-        thumb: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=700&q=85',
-        bgImage: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=1920&q=90',
-        videoSrc: 'https://www.youtube-nocookie.com/embed/t4rFBCjOmrk?autoplay=1&mute=1&loop=1&playlist=t4rFBCjOmrk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1',
-        fallbackGrad: 'linear-gradient(135deg,#3d1a2e,#c47da8,#f7cde3)',
+        id: 'forest-stream',
+        name: 'Forest Stream',
+        mood: 'Gentle · Flowing · Present',
+        thumb: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=90',
+        // "Relaxing Forest Stream" - babbling brook through green forest, birds chirping softly
+        videoSrc: 'https://www.youtube-nocookie.com/embed/1t7g690boao?autoplay=1&mute=1&loop=1&playlist=1t7g690boao&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#1c2e1a,#3a5c38,#2d4a2b)',
+        useYT: true,
+      },
+      {
+        id: 'underwater',
+        name: 'Coral Reef',
+        mood: 'Weightless · Slow · Dreamlike',
+        thumb: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3De8fc38eac9?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        // "Underwater Ocean 4K" - slow fish & coral, very gentle muted blue tones
+        videoSrc: 'https://www.youtube-nocookie.com/embed/rHOIMgL2bcQ?autoplay=1&mute=1&loop=1&playlist=rHOIMgL2bcQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#001a33,#003d66,#006699)',
+        useYT: true,
+      },
+      {
+        id: 'snowfall',
+        name: 'Snowfall',
+        mood: 'Quiet · Soft · Hushed',
+        thumb: 'https://images.unsplash.com/photo-1491002052546-bf38f186af56?w=700&q=85',
+        bgImage: 'https://images.unsplash.com/photo-1491002052546-bf38f186af56?w=1920&q=90',
+        // "Relaxing Snowfall 4K" - gentle slow snow falling in a quiet pine forest
+        videoSrc: 'https://www.youtube-nocookie.com/embed/ADDFmfOeihU?autoplay=1&mute=1&loop=1&playlist=ADDFmfOeihU&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1',
+        fallbackGrad: 'linear-gradient(135deg,#1a2744,#3a5a8c,#c8d8e8)',
         useYT: true,
       },
     ];
@@ -1454,18 +2104,43 @@
     }
     loadVoices();
 
+    // function speak(text) {
+    //   if (voiceMuted || !text) return;
+    //   synth.cancel();
+    //   const u = new SpeechSynthesisUtterance(text);
+    //   // Prefer a calm English voice
+    //   const preferred = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
+    //     || voices.find(v => v.lang.startsWith('en'))
+    //     || voices[0];
+    //   if (preferred) u.voice = preferred;
+    //   u.rate = 0.82;
+    //   u.pitch = 0.9;
+    //   u.volume = 1.0;
+    //   synth.speak(u);
+    // }
     function speak(text) {
       if (voiceMuted || !text) return;
       synth.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      // Prefer a calm English voice
-      const preferred = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
-        || voices.find(v => v.lang.startsWith('en'))
-        || voices[0];
+      
+      // 1. Get all available voices
+      const availableVoices = synth.getVoices();
+
+      // 2. Look for "Natural" or "Google" female voices first (the highest quality)
+      const preferred = availableVoices.find(v => v.name.includes('Natural') && v.name.includes('Female'))
+                    || availableVoices.find(v => v.name.includes('Google US English'))
+                    || availableVoices.find(v => v.name.includes('Microsoft Aria')) // Great subtle Windows voice
+                    || availableVoices.find(v => v.name.includes('Samantha'))      // Classic calm Mac voice
+                    || availableVoices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
+                    || availableVoices[0];
+
       if (preferred) u.voice = preferred;
-      u.rate = 0.82;
-      u.pitch = 0.9;
-      u.volume = 1.0;
+
+      // 3. Make it "Subtle" using these parameters
+      u.rate = 0.75;  // Slower speed is more meditative/subtle
+      u.pitch = 0.9; // Slightly lower pitch is often perceived as calmer
+      u.volume = 0.8; // Slightly lower volume makes it feel less "urgent"
+      
       synth.speak(u);
     }
 
@@ -1476,7 +2151,7 @@
       if (id !== 'player') {
         stopVideo();
       }
-      if (id !== 'player' && id !== 'selector') {
+      if (id !== 'player' && id !== 'selector' && id !== 'wellness') {
         closeBreathing();
       }
     }
@@ -1543,8 +2218,20 @@
     `;
         playerEl.insertBefore(iframe, playerEl.firstChild);
         ytFrame = iframe;
-        // Fade in video after it likely starts
-        setTimeout(() => { if (ytFrame) ytFrame.style.opacity = '1'; }, 2000);
+
+        // Once the iframe is ready, unmute and set volume.
+        // The user's card click is a valid gesture so the browser allows this.
+        function tryUnmute() {
+          if (!ytFrame) return;
+          const vol = parseInt(document.getElementById('vol-slider').value, 10);
+          ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unMute', args: [] }), '*');
+          ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [vol] }), '*');
+        }
+
+        // Try at 1.5s (usually enough for the player to init) and again at 3.5s as fallback
+        setTimeout(() => { ytFrame.style.opacity = '1'; tryUnmute(); }, 1500);
+        setTimeout(tryUnmute, 3500);
+
         applyVideoFilter();
       } else {
         const v = document.getElementById('bg-video');
@@ -1564,6 +2251,7 @@
       setBlur(0);
       document.getElementById('blur-slider').value = 0;
       videoMuted = false;
+      document.getElementById('vol-group').style.opacity = 1;
       document.getElementById('mute-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" /></svg>';
       document.getElementById('mute-video-btn').classList.remove('active');
     }
@@ -1581,6 +2269,10 @@
       document.getElementById('vol-val').textContent = Math.round(val) + '%';
       const v = document.getElementById('bg-video');
       v.volume = val / 100;
+      // Also push volume to YT iframe if active
+      if (ytFrame && !videoMuted) {
+        try { ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [parseInt(val, 10)] }), '*'); } catch (e) {}
+      }
       document.getElementById('vol-group').style.opacity = videoMuted ? 0.4 : 1;
     }
 
@@ -1607,11 +2299,19 @@
       document.getElementById('mute-video-btn').classList.toggle('active', videoMuted);
       const v = document.getElementById('bg-video');
       v.muted = videoMuted;
-      // For YT: post message (standard YT API)
+      // For YT: use proper mute/unMute + restore volume
       if (ytFrame) {
-        const cmd = videoMuted ? '{"event":"command","func":"mute","args":""}' : '{"event":"command","func":"unMute","args":""}';
-        try { ytFrame.contentWindow.postMessage(cmd, '*'); } catch (e) { }
+        try {
+          if (videoMuted) {
+            ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+          } else {
+            const vol = parseInt(document.getElementById('vol-slider').value, 10);
+            ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unMute', args: [] }), '*');
+            ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [vol] }), '*');
+          }
+        } catch (e) {}
       }
+      document.getElementById('vol-group').style.opacity = videoMuted ? 0.4 : 1;
     }
 
     // ── BREATHING ──────────────────────────────────────────────────────────────────
@@ -1896,6 +2596,243 @@
       });
       observer.observe(document.getElementById('landing'), { attributes: true, attributeFilter: ['class'] });
     })();
+
+    // ── GROUNDING 5-4-3-2-1 ────────────────────────────────────────────────────────
+    const GROUNDING_STEPS = [
+      { num: 5, sense: 'Things you can SEE', prompt: 'Look around slowly. Name 5 things you can see right now.' },
+      { num: 4, sense: 'Things you can TOUCH', prompt: 'Notice textures. Name 4 things you can physically touch or feel.' },
+      { num: 3, sense: 'Things you can HEAR', prompt: 'Listen carefully. Name 3 sounds you can hear around you.' },
+      { num: 2, sense: 'Things you can SMELL', prompt: 'Notice any scents. Name 2 things you can smell — or 2 you like.' },
+      { num: 1, sense: 'Thing you can TASTE', prompt: 'Notice your mouth. Name 1 thing you can taste right now.' },
+    ];
+    let gStep = 0;
+    let gItems = [[], [], [], [], []];
+
+    function openGrounding() {
+      resetGrounding();
+      document.getElementById('grounding-overlay').classList.add('active');
+    }
+    function closeGrounding() {
+      document.getElementById('grounding-overlay').classList.remove('active');
+    }
+    function resetGrounding() {
+      gStep = 0;
+      gItems = [[], [], [], [], []];
+      document.getElementById('grounding-main').style.display = 'flex';
+      document.getElementById('grounding-complete').classList.remove('show');
+      renderGroundingStep();
+    }
+    function renderGroundingStep() {
+      const s = GROUNDING_STEPS[gStep];
+      document.getElementById('g-num').textContent = s.num;
+      document.getElementById('g-label').textContent = s.sense;
+      document.getElementById('g-prompt').textContent = s.prompt;
+      document.getElementById('g-input').value = '';
+      document.getElementById('g-input').placeholder = `Name something you ${['see','touch','hear','smell','taste'][gStep]}…`;
+      document.getElementById('g-prev-btn').style.opacity = gStep === 0 ? '0.3' : '1';
+      document.getElementById('g-prev-btn').disabled = gStep === 0;
+      document.getElementById('g-next-btn').textContent = gStep === 4 ? 'Finish ✦' : 'Next →';
+      // progress dots
+      const pd = document.getElementById('g-progress');
+      pd.innerHTML = GROUNDING_STEPS.map((_, i) =>
+        `<div class="g-dot ${i < gStep ? 'done' : (i === gStep ? 'done' : '')}"></div>`
+      ).join('');
+      // items for this step
+      const itemsEl = document.getElementById('g-items');
+      itemsEl.innerHTML = gItems[gStep].map(t => `<span class="grounding-item-tag">${t}</span>`).join('');
+      setTimeout(() => document.getElementById('g-input').focus(), 100);
+    }
+    function addGroundingItem() {
+      const input = document.getElementById('g-input');
+      const val = input.value.trim();
+      if (!val) return;
+      const needed = GROUNDING_STEPS[gStep].num;
+      if (gItems[gStep].length >= needed) return;
+      gItems[gStep].push(val);
+      input.value = '';
+      renderGroundingStep();
+      // Auto-advance when step is complete
+      if (gItems[gStep].length >= needed) {
+        setTimeout(() => nextGroundingStep(), 600);
+      }
+    }
+    function nextGroundingStep() {
+      if (gStep < 4) {
+        gStep++;
+        renderGroundingStep();
+      } else {
+        document.getElementById('grounding-main').style.display = 'none';
+        document.getElementById('grounding-complete').classList.add('show');
+      }
+    }
+    function prevGroundingStep() {
+      if (gStep > 0) { gStep--; renderGroundingStep(); }
+    }
+
+    // ── AFFIRMATIONS ────────────────────────────────────────────────────────────────
+    const AFFIRMATIONS = [
+      { text: 'I am safe right now, in this moment.', category: 'Safety' },
+      { text: 'This feeling is temporary. It will pass.', category: 'Reassurance' },
+      { text: 'I have survived every difficult moment before this.', category: 'Strength' },
+      { text: 'My body is here. My feet are on the ground.', category: 'Grounding' },
+      { text: 'I am allowed to take up space and breathe.', category: 'Permission' },
+      { text: 'I do not have to face everything at once.', category: 'Ease' },
+      { text: 'The past is not happening right now.', category: 'Present moment' },
+      { text: 'I am more than what happened to me.', category: 'Identity' },
+      { text: 'It is okay to rest. Rest is healing.', category: 'Rest' },
+      { text: 'I am worthy of peace and gentleness.', category: 'Self-worth' },
+      { text: 'I can feel this without being overwhelmed by it.', category: 'Regulation' },
+      { text: 'One breath at a time. One moment at a time.', category: 'Pacing' },
+      { text: 'I am not in danger right now.', category: 'Safety' },
+      { text: 'My nervous system is learning to feel safe.', category: 'Healing' },
+      { text: 'I choose to be gentle with myself today.', category: 'Self-compassion' },
+    ];
+    let affIdx = 0;
+    let affAutoTimer = null;
+
+    function openAffirmations() {
+      affIdx = Math.floor(Math.random() * AFFIRMATIONS.length);
+      renderAffirmation();
+      buildAffDots();
+      document.getElementById('affirmations-overlay').classList.add('active');
+    }
+    function closeAffirmations() {
+      clearInterval(affAutoTimer);
+      affAutoTimer = null;
+      document.getElementById('aff-auto-btn').classList.remove('on');
+      document.getElementById('aff-auto-btn').textContent = 'Auto';
+      document.getElementById('affirmations-overlay').classList.remove('active');
+    }
+    function renderAffirmation(direction = 1) {
+      const el = document.getElementById('aff-text');
+      el.classList.add('fade-out');
+      setTimeout(() => {
+        el.textContent = AFFIRMATIONS[affIdx].text;
+        document.getElementById('aff-category').textContent = AFFIRMATIONS[affIdx].category;
+        el.classList.remove('fade-out');
+        el.classList.add('fade-in');
+        updateAffDots();
+      }, 350);
+    }
+    function buildAffDots() {
+      document.getElementById('aff-dots').innerHTML = AFFIRMATIONS.map((_, i) =>
+        `<div class="aff-dot ${i === affIdx ? 'active' : ''}" onclick="goAffirmation(${i})"></div>`
+      ).join('');
+    }
+    function updateAffDots() {
+      document.querySelectorAll('.aff-dot').forEach((d, i) => d.classList.toggle('active', i === affIdx));
+    }
+    function nextAffirmation() { affIdx = (affIdx + 1) % AFFIRMATIONS.length; renderAffirmation(1); }
+    function prevAffirmation() { affIdx = (affIdx - 1 + AFFIRMATIONS.length) % AFFIRMATIONS.length; renderAffirmation(-1); }
+    function goAffirmation(i) { affIdx = i; renderAffirmation(0); }
+    function toggleAffAuto() {
+      const btn = document.getElementById('aff-auto-btn');
+      if (affAutoTimer) {
+        clearInterval(affAutoTimer);
+        affAutoTimer = null;
+        btn.classList.remove('on');
+        btn.textContent = 'Auto';
+      } else {
+        affAutoTimer = setInterval(nextAffirmation, 6000);
+        btn.classList.add('on');
+        btn.textContent = 'Auto ●';
+      }
+    }
+
+    // ── JOURNAL ─────────────────────────────────────────────────────────────────────
+    let selectedMood = '';
+    let selectedTriggers = [];
+    let journalEntries = [];
+
+    function loadJournal() {
+      try { journalEntries = JSON.parse(localStorage.getItem('tranquil_journal') || '[]'); } catch(e) { journalEntries = []; }
+    }
+    function saveJournal() {
+      try { localStorage.setItem('tranquil_journal', JSON.stringify(journalEntries)); } catch(e) {}
+    }
+    function openJournal() {
+      loadJournal();
+      switchJournalTab('write');
+      selectedMood = ''; selectedTriggers = [];
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.trigger-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('j-textarea').value = '';
+      document.getElementById('journal-overlay').classList.add('active');
+    }
+    function closeJournal() {
+      document.getElementById('journal-overlay').classList.remove('active');
+    }
+    function switchJournalTab(tab) {
+      document.getElementById('j-tab-write').classList.toggle('active', tab === 'write');
+      document.getElementById('j-tab-history').classList.toggle('active', tab === 'history');
+      document.getElementById('j-write-panel').style.display = tab === 'write' ? 'block' : 'none';
+      const hist = document.getElementById('j-history-panel');
+      if (tab === 'history') { hist.classList.add('show'); renderJournalHistory(); }
+      else hist.classList.remove('show');
+    }
+    function selectMood(el) {
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedMood = el.dataset.mood;
+    }
+    function selectTrigger(el) {
+      el.classList.toggle('selected');
+      const t = el.dataset.trigger;
+      if (el.classList.contains('selected')) { if (!selectedTriggers.includes(t)) selectedTriggers.push(t); }
+      else selectedTriggers = selectedTriggers.filter(x => x !== t);
+    }
+    function saveJournalEntry() {
+      const text = document.getElementById('j-textarea').value.trim();
+      if (!text && !selectedMood) return;
+      loadJournal();
+      journalEntries.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        mood: selectedMood,
+        text,
+        triggers: [...selectedTriggers],
+      });
+      saveJournal();
+      // Reset form
+      selectedMood = ''; selectedTriggers = [];
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.trigger-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('j-textarea').value = '';
+      // Brief confirmation flash
+      const btn = document.querySelector('.journal-save-btn');
+      const orig = btn.textContent;
+      btn.textContent = '✦ Saved';
+      btn.style.background = 'rgba(100,220,150,0.15)';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+    }
+    function deleteJournalEntry(id) {
+      loadJournal();
+      journalEntries = journalEntries.filter(e => e.id !== id);
+      saveJournal();
+      renderJournalHistory();
+    }
+    function renderJournalHistory() {
+      loadJournal();
+      const el = document.getElementById('j-history-panel');
+      if (!journalEntries.length) {
+        el.innerHTML = '<p class="journal-empty">No entries yet. Your reflections will appear here.</p>';
+        return;
+      }
+      const MOOD_EMOJI = { calm:'😌', anxious:'😰', sad:'😔', angry:'😤', numb:'😶', hopeful:'🌱' };
+      el.innerHTML = journalEntries.map(e => `
+        <div class="journal-entry-item">
+          <div class="entry-meta">
+            <span class="entry-date">${e.date}</span>
+            <span style="display:flex;gap:0.4rem;align-items:center">
+              ${e.mood ? `<span class="entry-mood-badge">${MOOD_EMOJI[e.mood] || ''} ${e.mood}</span>` : ''}
+              <button class="entry-delete-btn" onclick="deleteJournalEntry(${e.id})">✕</button>
+            </span>
+          </div>
+          ${e.text ? `<div class="entry-text">${e.text.replace(/</g,'&lt;')}</div>` : ''}
+          ${e.triggers && e.triggers.length ? `<div class="entry-triggers">${e.triggers.map(t=>`<span class="entry-trigger-tag">${t}</span>`).join('')}</div>` : ''}
+        </div>
+      `).join('');
+    }
 
     // ── INIT ───────────────────────────────────────────────────────────────────────
     buildAreaCards();
